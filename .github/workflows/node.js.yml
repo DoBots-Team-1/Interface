@@ -13,21 +13,11 @@ jobs:
   build:
 
     runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
     - run: npm install
     - run: yarn dist
+    env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
   store:
     needs: build
@@ -36,6 +26,6 @@ jobs:
     steps:
       - uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
+          name: Create artifact
           path: _work/builds/ # or path/to/artifact
 
