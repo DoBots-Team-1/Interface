@@ -5,12 +5,8 @@ const createWindow = () => {
         width: 1200,
         height: 600
     })
-
     win.loadFile('index.html')
 }
-app.whenReady().then(() => {
-    createWindow()
-})
 app.whenReady().then(() => {
     createWindow()
 

@@ -4,8 +4,11 @@
   "description": "Camera pointcloud visualisation for DoBots",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
+  "postinstall": "electron-builder install-app-deps",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DoBots-Team-1/Interface.git"
@@ -15,8 +18,18 @@
   "bugs": {
     "url": "https://github.com/DoBots-Team-1/Interface/issues"
   },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "your.app.category.type"
+    }
+  },
   "homepage": "https://github.com/DoBots-Team-1/Interface#readme",
   "devDependencies": {
-    "electron": "^16.0.2"
+    "electron": "^16.0.2",
+    "electron-builder": "^22.14.5"
+  },
+  "dependencies": {
+    "three": "^0.135.0"
   }
 }
