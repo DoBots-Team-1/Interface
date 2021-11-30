@@ -1,0 +1,22 @@
+{
+  "name": "dobots",
+  "version": "1.0.0",
+  "description": "Camera pointcloud visualisation for DoBots",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoBots-Team-1/Interface.git"
+  },
+  "author": "Nigel <info@nigelritfeld.nl>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DoBots-Team-1/Interface/issues"
+  },
+  "homepage": "https://github.com/DoBots-Team-1/Interface#readme",
+  "devDependencies": {
+    "electron": "^16.0.2"
+  }
+}
