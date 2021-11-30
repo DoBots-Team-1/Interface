@@ -27,5 +27,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Create artifact
-          path: _work/builds/ # or path/to/artifact
+          path: ~/actions-runner/_work/Interface/Interface/dist
         
