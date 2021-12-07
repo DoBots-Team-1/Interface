@@ -20,10 +20,10 @@ class stream {
     ctx = this.canvas.getContext("2d");
 
     constructor() {
-        this.createConnection()
-            .then(this.cameraStream.subscribe(this.renderFrames(message)))
+        this.createConnection(this.port)
+            .then(this.cameraStream.subscribe((message) => this.renderFrames(message)))
             .catch((e) => {console.log(`error:${e}`)})// Initializes connection
-            // .then(this.velodynePoints.subscribe(this.renderPointCloud(message)))
+        // .then(this.velodynePoints.subscribe(this.renderPointCloud(message)))
     }
 
     /**
