@@ -20,9 +20,12 @@ class stream {
     ctx = this.canvas.getContext("2d");
 
     constructor() {
+        //todo: Creating play rosbag functionality
+
         this.createConnection(this.port)
             .then(this.cameraStream.subscribe((message) => this.renderFrames(message)))
             .catch((e) => {console.log(`error:${e}`)})// Initializes connection
+
         // .then(this.velodynePoints.subscribe(this.renderPointCloud(message)))
     }
 
@@ -75,6 +78,7 @@ class stream {
      */
     createConnection(port)
     {
+        //todo: passing port number to console log
         return new Promise((resolve, reject) =>
         {
             this.ros.on('connection', function(port) {
