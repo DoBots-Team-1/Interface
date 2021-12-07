@@ -2,7 +2,7 @@ window.addEventListener("load" , init);
 window.addEventListener("resize" , resize);
 let nextBtn = document.querySelector('#next-btn')
 nextBtn.addEventListener("click" , () => {
-   window.location = `${window.location.href.replace('particles','ball')}`
+   window.location = `${window.location.href = 'client.html'}`
 });
 
 import * as THREE from '../../node_modules/three/build/three.module.js';
