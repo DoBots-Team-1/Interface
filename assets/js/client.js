@@ -4,7 +4,7 @@ class stream {
 
     port = 9090;
     ros = new this.ROSLIB.Ros({
-        url : `ws://localhost:${this.port}`
+        url : "ws://2.tcp.ngrok.io:16600"
     });
     cameraStream = new this.ROSLIB.Topic({
         ros : this.ros,
@@ -65,7 +65,7 @@ class stream {
     }
 
     /**
-     * Create pointcloud visualisation
+     * Create point cloud visualisation
      */
     renderPointCloud(message)
     {

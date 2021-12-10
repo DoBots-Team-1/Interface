@@ -9,7 +9,7 @@ const createWindow = () => {
             contextIsolation: false,
         }
     })
-    win.loadFile('index.html')
+    win.loadFile('./app/views/index.html')
     win.webContents.openDevTools()
 }
 app.whenReady().then(() => {
