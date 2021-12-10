@@ -4,7 +4,7 @@ class stream {
 
     port = 9090;
     ros = new this.ROSLIB.Ros({
-        url : `ws://localhost:${this.port}`
+        url : "ws://2.tcp.ngrok.io:16600"
     });
     cameraStream = new this.ROSLIB.Topic({
         ros : this.ros,
@@ -20,10 +20,13 @@ class stream {
     ctx = this.canvas.getContext("2d");
 
     constructor() {
-        this.createConnection()
-            .then(this.cameraStream.subscribe(this.renderFrames(message)))
+        //todo: Creating play rosbag functionality
+
+        this.createConnection(this.port)
+            .then(this.cameraStream.subscribe((message) => this.renderFrames(message)))
             .catch((e) => {console.log(`error:${e}`)})// Initializes connection
-            // .then(this.velodynePoints.subscribe(this.renderPointCloud(message)))
+
+        // .then(this.velodynePoints.subscribe(this.renderPointCloud(message)))
     }
 
     /**
@@ -62,7 +65,7 @@ class stream {
     }
 
     /**
-     * Create pointcloud visualisation
+     * Create point cloud visualisation
      */
     renderPointCloud(message)
     {
@@ -75,6 +78,7 @@ class stream {
      */
     createConnection(port)
     {
+        //todo: passing port number to console log
         return new Promise((resolve, reject) =>
         {
             this.ros.on('connection', function(port) {
