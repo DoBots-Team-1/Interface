@@ -3,8 +3,8 @@ window.addEventListener("resize" , resize);
 let nextBtn = document.querySelector('#next-btn')
 
 import * as THREE from '../../node_modules/three/build/three.module.js';
-let particlesScene, camera, renderer, sphere, clock, controls;
 
+let particlesScene, camera, renderer, sphere, clock, controls;
 
 function init()
 {
