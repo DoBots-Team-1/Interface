@@ -82,6 +82,11 @@
     "mkdirp" "^1.0.4"
     "rimraf" "^3.0.2"
 
+"@robot-web-tools/ros3djs@^0.17.0-SNAPSHOT":
+  "integrity" "sha1-AqDGsoNBY+ooHwMbKdWVab7Y2wc="
+  "resolved" "https://registry.npmjs.org/@robot-web-tools/ros3djs/-/ros3djs-0.17.0-SNAPSHOT.tgz"
+  "version" "0.17.0-SNAPSHOT"
+
 "@sindresorhus/is@^0.14.0":
   "integrity" "sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ=="
   "resolved" "https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz"

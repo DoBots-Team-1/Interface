@@ -32,6 +32,7 @@
     "electron-rebuild": "^3.2.5"
   },
   "dependencies": {
+    "@robot-web-tools/ros3djs": "^0.17.0-SNAPSHOT",
     "requirejs": "^2.3.6",
     "rosbag": "^3.0.0",
     "roslib": "^1.1.0",
