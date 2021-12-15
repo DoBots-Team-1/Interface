@@ -1,32 +1,42 @@
 
 class stream {
     ROSLIB = require('roslib')
-
     port = 9090;
     ros = new this.ROSLIB.Ros({
-        url : "ws://2.tcp.ngrok.io:16600"
+        url : `ws://localhost:${this.port}`
     });
     cameraStream = new this.ROSLIB.Topic({
         ros : this.ros,
         name : '/camera/image_raw',
         messageType : 'sensor_msgs/Image'
     });
-    velodynePoints = new this.ROSLIB.Topic({
-        ros : this.ros,
-        name : '/velodyne_points',
-        messageType : 'sensor_msgs/PointCloud2'
+    // Create the main viewer.
+    viewer = new ROS3D.Viewer({
+        divID : 'viewer',
+        background: '#0',
+        width : 1980,
+        height : 1080,
+        antialias : true
     });
-    canvas = document.createElement("canvas");
-    ctx = this.canvas.getContext("2d");
+
+    tfClient = new ROSLIB.TFClient({
+        ros : this.ros,
+        angularThres : 0.01,
+        transThres : 0.01,
+        rate : 10.0,
+        fixedFrame : 'base_link'
+    });
+
+    cameraCanvas = document.createElement("canvas");
+    ctx = this.cameraCanvas.getContext("2d");
 
     constructor() {
         //todo: Creating play rosbag functionality
 
         this.createConnection(this.port)
+            .then(() => this.renderPointCloud())
             .then(this.cameraStream.subscribe((message) => this.renderFrames(message)))
             .catch((e) => {console.log(`error:${e}`)})// Initializes connection
-
-        // .then(this.velodynePoints.subscribe(this.renderPointCloud(message)))
     }
 
     /**
@@ -35,8 +45,8 @@ class stream {
      */
     renderFrames(message)
     {
-        this.canvas.width = message.width;
-        this.canvas.height = message.height;
+        this.cameraCanvas.width = message.width;
+        this.cameraCanvas.height = message.height;
 
         const imgData = this.ctx.createImageData(message.width, message.height);
         const data = imgData.data;
@@ -60,16 +70,22 @@ class stream {
         }
 
         this.ctx.putImageData(imgData, 0, 0);
-        document.body.appendChild(this.canvas);
+        document.body.appendChild(this.cameraCanvas);
         this.cameraStream.unsubscribe();
     }
 
     /**
      * Create point cloud visualisation
      */
-    renderPointCloud(message)
+    renderPointCloud()
     {
-        //todo: Creates function to handle and visualize pointcloud
+        const cloudClient = new ROS3D.PointCloud2({
+            ros: this.ros,
+            topic: '/velodyne_points',
+            tfClient: this.tfClient,
+            rootObject: this.viewer.scene,
+            material: { size: 0.05, color: 0xff00ff }
+        });
     }
 
     /**
