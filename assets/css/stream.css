@@ -1,0 +1,64 @@
+#viewer{
+    width: 100vw; height: 100vh;
+}
+
+#camera, #lidar{
+    position: absolute;
+}
+
+#lidar {
+    z-index: 2;
+}
+
+/*Pulse Button*/
+.pulse-button {
+    position: fixed;
+    border: none;
+    text-decoration: none;
+    z-index: 3;
+    margin-left: -50px;
+    margin-top: -50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    font-size: 1.3em;
+    text-align: center;
+    /*font-family: 'Trebuchet MS', sans-serif;*/
+    /*text-transform: uppercase;*/
+    /*text-align: center;*/
+    line-height: 100px;
+    letter-spacing: -1px;
+    color: white;
+    border-radius: 50%;
+    background-color: #21212182;
+    cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(225, 225, 225, 0.25);
+    -webkit-animation: none;
+}
+.pulse-button:hover {
+    -webkit-animation: pulse 2s infinite;
+}
+@-webkit-keyframes pulse {
+    0% {
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    70% {
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+    }
+    100% {
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+    }
+}

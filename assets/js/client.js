@@ -1,24 +1,26 @@
-
 class stream {
     ROSLIB = require('roslib')
     port = 9090;
+    // Socket connection
     ros = new this.ROSLIB.Ros({
         url : `ws://localhost:${this.port}`
     });
+    // Renderer
+    viewer = new ROS3D.Viewer({
+        divID : 'viewer',
+        background: '#ffffff',
+        width : 50,
+        height : 50,
+        antialias : true,
+        alpha : 0.1
+    });
+    // Camera stream topic
     cameraStream = new this.ROSLIB.Topic({
         ros : this.ros,
         name : '/camera/image_raw',
         messageType : 'sensor_msgs/Image'
     });
-    // Create the main viewer.
-    viewer = new ROS3D.Viewer({
-        divID : 'viewer',
-        background: '#0',
-        width : 1980,
-        height : 1080,
-        antialias : true
-    });
-
+    // TF Client
     tfClient = new ROSLIB.TFClient({
         ros : this.ros,
         angularThres : 0.01,
@@ -27,27 +29,51 @@ class stream {
         fixedFrame : 'base_link'
     });
 
+    display = document.getElementById('viewer')
     cameraCanvas = document.createElement("canvas");
     ctx = this.cameraCanvas.getContext("2d");
 
     constructor() {
-        //todo: Creating play rosbag functionality
-
+        // Initializes connection
         this.createConnection(this.port)
-            .then(() => this.renderPointCloud())
-            .then(this.cameraStream.subscribe((message) => this.renderFrames(message)))
-            .catch((e) => {console.log(`error:${e}`)})// Initializes connection
+            .then(() => this.init())
+            .catch((e) => {console.log(`error:${e.message}`)});
+        // Initializes connection
+        this.renderPointCloud()
+            // Render camera
+            .then(() => this.cameraStream.subscribe((message) => this.renderFrames(message)))
+            .catch((e) => {console.log(`error:${e.message}`)});
     }
 
     /**
-     * Renders camera frames to canvas
+     * Sends one request to initialize the camera stream resolution
+     */
+    init()
+    {
+        this.cameraCanvas.setAttribute('id', 'camera');
+        this.display.children[0].setAttribute('id', 'lidar');
+        let initCameraStream = new this.ROSLIB.Topic({
+            ros : this.ros,
+            name : '/camera/image_raw',
+            messageType : 'sensor_msgs/Image'
+        });
+
+        initCameraStream.subscribe((message) => {
+            console.info('Initializing the camera stream..');
+            console.info(`Resolution:${message.width} x ${ message.height} `);
+            this.viewer.renderer.setSize(message.width, message.height);
+            this.cameraCanvas.width = message.width;
+            this.cameraCanvas.height = message.height;
+            initCameraStream.unsubscribe();
+        })
+    }
+
+    /**
+     * Decodes byte string data to binary and  camera frames to canvas
      * @param message
      */
     renderFrames(message)
     {
-        this.cameraCanvas.width = message.width;
-        this.cameraCanvas.height = message.height;
-
         const imgData = this.ctx.createImageData(message.width, message.height);
         const data = imgData.data;
         const inData = atob(message.data);
@@ -70,16 +96,17 @@ class stream {
         }
 
         this.ctx.putImageData(imgData, 0, 0);
-        document.body.appendChild(this.cameraCanvas);
+        this.display.appendChild(this.cameraCanvas);
         this.cameraStream.unsubscribe();
     }
 
     /**
      * Create point cloud visualisation
+     * Using ROS3D Libary
      */
-    renderPointCloud()
+    async renderPointCloud()
     {
-        const cloudClient = new ROS3D.PointCloud2({
+        const cloudClient = await new ROS3D.PointCloud2({
             ros: this.ros,
             topic: '/velodyne_points',
             tfClient: this.tfClient,
@@ -97,22 +124,22 @@ class stream {
         //todo: passing port number to console log
         return new Promise((resolve, reject) =>
         {
-            this.ros.on('connection', function(port) {
-                resolve(console.log(`Connected to websocket server on port ${port}.`))
+            this.ros.on('connection', function() {
+                console.log(`Connected to websocket server.`)
+                resolve()
             });
 
             this.ros.on('error', function(error, port) {
-                reject(console.log(`Error connecting to websocket server:  ${port}.`, error));
+                console.log(`Error connecting to websocket server.`, error)
+                reject()
             });
 
             this.ros.on('close', function(port) {
-                reject(console.log(`Connection to websocket server closed on port ${port}`));
+                console.log(`Connection to websocket server closed.`)
+                reject()
             });
 
         })
-
-
-
     }
 }
 new stream()
