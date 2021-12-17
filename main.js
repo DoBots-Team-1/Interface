@@ -4,12 +4,13 @@ const createWindow = () => {
     const win = new BrowserWindow({
         width: 1200,
         height: 600,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
         }
     })
-    win.loadFile('./app/views/index.html')
+    win.loadFile('./app/views/checklist.html')
     win.webContents.openDevTools()
 }
 app.whenReady().then(() => {

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./src/styles.css" />
+
+    <title>Checklist</title>
+    <style>
+      body {
+        background: #2b4570;
+        margin-top: 25px;
+      }
+
+      .accordion-item {
+        /* padding: 10px; */
+        color: white;
+      }
+
+      .accordion-item,
+      .accordion-button.collapsed {
+        background: #6575a4;
+        color: #fff;
+      }
+
+      .accordion-body label {
+        margin-top: 15px;
+      }
+
+      h1 {
+        color: #fff;
+        margin-bottom: 25px;
+      }
+
+      .container .buttonContainer {
+        text-align: center;
+        margin: 25px 0px;
+      }
+
+      #btn-nxt {
+        background: #00ba56;
+        text-align: center;
+        margin: auto;
+        width: 200px;
+        border-radius: 10px;
+        display: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Checklist</h1>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                  aria-expanded="false"
+                  aria-controls="collapseOne"
+                >
+                  Iedereen IMSAFE?
+                </button>
+              </h2>
+              <div
+                id="collapseOne"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <ul>
+                    <li>
+                      Ziekte - Lijdt de piloot niet aan een ziekte of symptoom
+                      van een ziekte die hem/haar tijdens de vlucht zou kunnen
+                      treffen?
+                    </li>
+                    <li>
+                      Medicatie - Gebruikt de piloot momenteel geen medicijnen
+                      (op recept of zonder recept verkrijgbaar)?
+                    </li>
+                    <li>
+                      Stress - Maakt de piloot zich niet te veel zorgen over
+                      andere factoren in zijn leven? Er is geen psychologische
+                      druk van het dagelijks leven kan een krachtige afleiding
+                      zijn en bijgevolg de prestaties van een piloot
+                      beïnvloeden.
+                    </li>
+                    <li>
+                      Alcohol - Hoewel de wettelijke limieten per rechtsgebied
+                      verschillen (0,04 BAG, elk gebruik in de afgelopen 8 uur
+                      of huidige beperking in de VS [2]), moet de piloot
+                      rekening houden met zijn alcoholgebruik in de afgelopen 8
+                      tot 24 uur.
+                    </li>
+                    <li>
+                      Vermoeidheid - Heeft de piloot voldoende geslapen en
+                      voldoende voeding gehad?
+                    </li>
+                    <li>
+                      Emotie - Is de piloot volledig hersteld van extreem
+                      schokkende gebeurtenissen zoals het verlies van een
+                      familielid?
+                    </li>
+                  </ul>
+                  <input
+                    type="checkbox"
+                    class="btn-check-1"
+                    id="btn-check-1"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="false"
+                    aria-controls="collapseOne"
+                  />
+                  <label class="btn btn-primary" for="btn-check-1">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button
+                  class="accordion-button collapsed even"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="collapseTwo"
+                >
+                  Geen bijzondere objecten die de drone kunnen blokkeren
+                </button>
+              </h2>
+              <div
+                id="collapseTwo"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingTwo"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  Geen vliegende objecten in de omgeving. Geen vallende
+                  voorwerpen in de omgeving<br />
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-2"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="collapseTwo"
+                  />
+                  <label class="btn btn-primary" for="btn-check-2">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree"
+                  aria-expanded="false"
+                  aria-controls="collapseThree"
+                >
+                  Opdracht bij crew duidelijk
+                </button>
+              </h2>
+              <div
+                id="collapseThree"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingThree"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  De drone operatie is met de volledige crew doorgenomen.
+                  Iedereen weet te vertellen wat hem of haar te doen staat<br />
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-3"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  />
+                  <label class="btn btn-primary" for="btn-check-3">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFour">
+                <button
+                  class="accordion-button collapsed even"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour"
+                  aria-expanded="false"
+                  aria-controls="collapseFour"
+                >
+                  Weeromstandigheden veilig voor drone
+                </button>
+              </h2>
+              <div
+                id="collapseFour"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingFour"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <ul>
+                    <li>
+                      Vlieg niet met regen
+                    </li>
+                    <li>
+                      Vlieg niet met sneeuw
+                    </li>
+                    <li>
+                      Vlieg niet vanaf windkracht 7
+                    </li>
+                  </ul>
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-4"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFour"
+                    aria-expanded="false"
+                    aria-controls="collapseFour"
+                  />
+                  <label class="btn btn-primary" for="btn-check-4">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFive">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseFive"
+                  aria-expanded="false"
+                  aria-controls="collapseFive"
+                >
+                  Noodlandinglocatie vastgesteld
+                </button>
+              </h2>
+              <div
+                id="collapseFive"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingFive"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  Wanneer er iets fout gaat met de drone is er een locatie
+                  vastgesteld waar de drone veilig kan landen.<br />
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFive"
+                    aria-expanded="false"
+                    aria-controls="collapseFive"
+                  />
+                  <label class="btn btn-primary" for="btn-check">Check</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingSix">
+                <button
+                  class="accordion-button collapsed even"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseSix"
+                  aria-expanded="false"
+                  aria-controls="collapseSix"
+                >
+                  Start en landingplaats vastgesteld
+                </button>
+              </h2>
+              <div
+                id="collapseSix"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingSix"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <ul>
+                    <li>
+                      Return to home hoogte is vastgesteld
+                    </li>
+                    <li>
+                      Ready to go GPS
+                    </li>
+                    <li>
+                      De locaties voor take-off en after take-off zijn
+                      vastgesteld en besproken met mensen in de omgeving
+                    </li>
+                  </ul>
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-6"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseSix"
+                    aria-expanded="false"
+                    aria-controls="collapseSix"
+                  />
+                  <label class="btn btn-primary" for="btn-check-6">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingSeven">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseSeven"
+                  aria-expanded="false"
+                  aria-controls="collapseSeven"
+                >
+                  Drone geen beschadigingen
+                </button>
+              </h2>
+              <div
+                id="collapseSeven"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingSeven"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  De drone heeft geen losse onderdelen, er zijn geen
+                  beschadegingen aan de accus of andere belangrijke onderdelen
+                  van de droen<br />
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-7"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseSeven"
+                    aria-expanded="false"
+                    aria-controls="collapseSeven"
+                  />
+                  <label class="btn btn-primary" for="btn-check-7">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingEight">
+                <button
+                  class="accordion-button collapsed even"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseEight"
+                  aria-expanded="false"
+                  aria-controls="collapseEight"
+                >
+                  Accu check
+                </button>
+              </h2>
+              <div
+                id="collapseEight"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingEight"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  <ul>
+                    <li>
+                      Before take off: accu min. 35%
+                    </li>
+                    <li>
+                      Wissel accu (vliegaccu uit en volle vliegaccu gezekerd)
+                      bij < 35%
+                    </li>
+                  </ul>
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-8"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseEight"
+                    aria-expanded="false"
+                    aria-controls="collapseEight"
+                  />
+                  <label class="btn btn-primary" for="btn-check-8">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingNine">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseNine"
+                  aria-expanded="false"
+                  aria-controls="collapseNine"
+                >
+                  Geen crew op scanlocatie
+                </button>
+              </h2>
+              <div
+                id="collapseNine"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingNine"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  Zorg dat u zelf en uw crew niet aanwezig is op de locatie waar
+                  u wilt gaan scannen
+                  <br />
+                  <input
+                    type="checkbox"
+                    class="btn-check-9"
+                    id="btn-check-9"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseNine"
+                    aria-expanded="false"
+                    aria-controls="collapseNine"
+                  />
+                  <label class="btn btn-primary" for="btn-check-9">Check</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTen">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseTen"
+                  aria-expanded="false"
+                  aria-controls="collapseTen"
+                >
+                  Portofoon check
+                </button>
+              </h2>
+              <div
+                id="collapseTen"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingTen"
+                data-bs-parent="#accordionExample"
+              >
+                <div class="accordion-body">
+                  De hele crew zit op de zelfde frequentie en kan met elkaar
+                  communiceren via de portofoon.<br />
+                  <input
+                    type="checkbox"
+                    class="btn-check-2"
+                    id="btn-check-10"
+                    autocomplete="off"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTen"
+                    aria-expanded="false"
+                    aria-controls="collapseTen"
+                  />
+                  <label class="btn btn-primary" for="btn-check-10"
+                    >Check</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="buttonContainer">
+        <a id="btn-nxt" class="btn btn-secondary" href="client.html">Ga naar interface</a>
+      </div>
+    </div>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+      integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../../assets/js/checklist.js"></script>
+  </body>
+</html>
