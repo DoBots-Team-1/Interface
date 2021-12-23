@@ -1,3 +1,5 @@
+import * as THREE from '../../node_modules/three/build/three.module.js';
+
 class stream {
     ROSLIB = require('roslib')
     port = 9090;
@@ -14,11 +16,23 @@ class stream {
         antialias : true,
         alpha : 0.1
     });
+
     // Camera stream topic
     cameraStream = new this.ROSLIB.Topic({
         ros : this.ros,
         name : '/camera/image_raw',
         messageType : 'sensor_msgs/Image'
+    });
+    // Battery stream topic
+    stateStream = new this.ROSLIB.Topic({
+        ros : this.ros,
+        name : '/mavros/state',
+        messageType : 'mavros_msgs/State'
+    });
+    altitudeStream = new this.ROSLIB.Topic({
+        ros : this.ros,
+        name : '/mavros/altitude',
+        messageType : 'mavros_msgs/Altitude'
     });
     // TF Client
     tfClient = new ROSLIB.TFClient({
@@ -32,18 +46,113 @@ class stream {
     display = document.getElementById('viewer')
     cameraCanvas = document.createElement("canvas");
     ctx = this.cameraCanvas.getContext("2d");
+    stateMessage = document.getElementById('state-message')
+    stateSubject = document.getElementById('state-subject')
+    footer = document.getElementById('footer')
+    mode
+    landing
+    cameraRendered = false;
+    window;
+    loadingScreen = new THREE.WebGLRenderer()
+    errorScreen = document.getElementById('error-screen')
 
-    constructor() {
+    constructor(window) {
+        this.window = window
+        this.loadScreen()
         // Initializes connection
         this.createConnection(this.port)
             .then(() => this.init())
-            .catch((e) => {console.log(`error:${e.message}`)});
+            .catch((e) => {
+                this.loadingScreen.domElement.remove()
+                // this.errorScreen.style.display = "flex"
+                console.log(`error:${e.message}`)
+            });
         // Initializes connection
         this.renderPointCloud()
             // Render camera
             .then(() => this.cameraStream.subscribe((message) => this.renderFrames(message)))
+            .then(() => this.stateStream.subscribe((message) => this.droneFeedback(message)))
+            .then(() => this.altitudeStream.subscribe((message) => this.altitudeFeedback(message)))
             .catch((e) => {console.log(`error:${e.message}`)});
+        // const camera = new THREE.PerspectiveCamera( 45, this.cameraCanvas.width / this.cameraCanvas.height, 1, 1000 );
+
+        this.viewer.camera.position.setY(0.020790662415651365)
+        this.viewer.camera.position.setX(-0.0978123763966757)
+        this.viewer.camera.position.setZ(-0.0006981260297961952)
     }
+
+    loadScreen()
+    {
+        let particlesScene, camera, sphere, clock, controls;
+
+        const createScene = () =>
+        {
+            // Objects
+            const geometry = new THREE.TorusGeometry( .7, .2, 16, 100 );
+
+            // Materials
+            const material = new THREE.PointsMaterial({
+                color: 0xff0000,
+                size: 0.008
+
+            })
+            material.color = new THREE.Color(0xff0000)
+
+            // Mesh
+            sphere = new THREE.Points(geometry,material)
+            particlesScene.add(sphere)
+
+            // Lights
+            const pointLight = new THREE.PointLight(0xff0000, 0.1)
+            pointLight.position.x = 2
+            pointLight.position.y = 3
+            pointLight.position.z = 4
+
+            // Points
+            const points = new THREE.Points( geometry, material );
+
+            particlesScene.add(pointLight)
+
+            document.body.appendChild(this.loadingScreen.domElement)
+        }
+
+        const tick = () =>
+        {
+
+            const elapsedTime = clock.getElapsedTime()
+
+            // Update objects
+            sphere.rotation.y = .5 * elapsedTime
+
+            // Update Orbital Controls
+            // controls.update()
+
+            // Render
+            this.loadingScreen.render(particlesScene, camera)
+
+            // Call tick again on the next frame
+            window.requestAnimationFrame(tick)
+        }
+
+        particlesScene = new THREE.Scene()
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100)
+        camera.position.x = 0
+        camera.position.y = 0
+        camera.position.z = 2
+        particlesScene.add(camera)
+        this.loadingScreen.setSize( this.window.innerWidth, this.window.innerHeight );
+        clock = new THREE.Clock()
+        // controls = new OrbitControls();
+        createScene()
+        tick()
+
+
+
+
+
+
+    }
+
 
     /**
      * Sends one request to initialize the camera stream resolution
@@ -61,9 +170,10 @@ class stream {
         initCameraStream.subscribe((message) => {
             console.info('Initializing the camera stream..');
             console.info(`Resolution:${message.width} x ${ message.height} `);
-            this.viewer.renderer.setSize(message.width, message.height);
-            this.cameraCanvas.width = message.width;
-            this.cameraCanvas.height = message.height;
+            this.viewer.renderer.setSize(this.window.innerWidth, this.window.innerHeight);
+            this.cameraCanvas.width = this.window.innerWidth;
+            this.cameraCanvas.height = this.window.innerHeight;
+
             initCameraStream.unsubscribe();
         })
     }
@@ -74,6 +184,7 @@ class stream {
      */
     renderFrames(message)
     {
+        //console.log(this.viewer.camera.position);
         const imgData = this.ctx.createImageData(message.width, message.height);
         const data = imgData.data;
         const inData = atob(message.data);
@@ -97,7 +208,11 @@ class stream {
 
         this.ctx.putImageData(imgData, 0, 0);
         this.display.appendChild(this.cameraCanvas);
-        this.cameraStream.unsubscribe();
+        if(this.cameraRendered == false){
+            this.footer.style.display = 'flex';
+            this.cameraRendered = true;
+        }
+        //this.cameraStream.unsubscribe();
     }
 
     /**
@@ -113,6 +228,39 @@ class stream {
             rootObject: this.viewer.scene,
             material: { size: 0.05, color: 0xff00ff }
         });
+    }
+
+    altitudeFeedback(message){
+        //if(this.mode !== "flying"){return}
+        if(message.bottom_clearance == null && message.terrain == null && this.landing == false){
+            this.mode = "flying"
+            this.stateSubject.innerHTML = "Flying"
+            this.stateMessage.innerHTML = "The drone is currently flying in manual mode.";
+        }
+    }
+
+    droneFeedback(message) {
+        if (message.armed == true && message.mode == "AUTO.LAND" && message.guided == true && this.landing == false) {
+            this.stateSubject.innerHTML = "Autonomous landing";
+            this.stateMessage.innerHTML = "The drone is now trying to land.";
+            this.mode = "landing"
+            this.landing = true
+        }
+        if (message.armed == true && message.mode == "OFFBOARD" && this.mode !== "flying") {
+            this.stateSubject.innerHTML = "Taking off...";
+            this.stateMessage.innerHTML = "The drone is now ready to take off manually";
+            this.mode = "takeoff"
+        }
+        if (message.armed == false && message.mode== "AUTO.LAND") {
+            this.stateSubject.innerHTML = "Landed";
+            this.stateMessage.innerHTML = "The drone has succesfully landed!";
+            this.mode = "landed"
+            this.landing = false
+        }
+
+        //console.log(this.stateMessage.innerHTML = mode)
+
+        //this.stateStream.unsubscribe()
     }
 
     /**
@@ -142,4 +290,4 @@ class stream {
         })
     }
 }
-new stream()
+new stream(window)
