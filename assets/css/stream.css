@@ -2,12 +2,17 @@
 
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Roboto', sans-serif;
     height: 100vh;
     width: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-y: 10px;
+    background-image: url("https://images.unsplash.com/photo-1541944766239-695501c0c318?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80");
 }
-#error-screen
-{
+
+#error-screen {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -19,35 +24,53 @@ body {
     background-color: #141414;
 
 }
-.error-wrapper
-{
+
+.error-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-#viewer{
-    width: 100vw; height: 100vh;
+
+#viewer {
+    width: 100vw;
+    height: 100vh;
 }
 
-#camera, #lidar{
+#camera, #lidar {
     position: absolute;
 }
 
 #lidar {
     z-index: 2;
 }
-.error-title
-{
+
+.error-title {
     margin: 0;
     font-size: 5rem;
 }
-.error-message
-{
+
+.error-message {
     text-align: center;
     font-size: 1.8rem;
     font-weight: 300;
 }
+
+#show-lidar-icon {
+    display: none;
+}
+
+#hide-lidar-icon, #show-lidar-icon {
+    transition: all 1s;
+    /*fill: #fff;*/
+}
+
+.lidar-show-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /*Pulse Button*/
 .pulse-button {
     /* position: absolute; */
@@ -61,8 +84,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
+    width: 55px;
+    height: 55px;
     font-size: 1.3em;
     text-align: center;
     line-height: 100px;
@@ -74,9 +97,11 @@ body {
     box-shadow: 0 0 0 0 rgba(225, 225, 225, 0.25);
     -webkit-animation: none;
 }
+
 .pulse-button:hover {
     -webkit-animation: pulse 2s infinite;
 }
+
 @-webkit-keyframes pulse {
     0% {
         -moz-transform: scale(0.9);
@@ -100,37 +125,102 @@ body {
     }
 }
 
-/*styles for interface footer */
-.interface-footer {
+#clock {
+    color: #fff;
+}
+
+/*Top bar css*/
+.top-bar {
+    color: #000;
     position: absolute;
-    align-items: center;
-    bottom: 0;
+    align-items: flex-start;
+    top: 0;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100vw;
     height: 20vw;
     z-index: 99;
 }
 
+/*styles for interface footer */
+.interface-footer {
+    /*background: red;*/
+    padding: 25px 0px;
+    position: absolute;
+    align-items: flex-end;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    height: 15vw;
+    z-index: 99;
+}
+
 /* state widget */
 .state-wrapper {
-    background-color: rgba(20, 20, 20, 0.77);
+    /*background: rgb(255, 255, 255, 0.5);*/
+    background: rgb(0, 0, 0);
+    background: linear-gradient(
+            90deg, rgba(0, 0, 0, 0.8) 0%, rgb(0 255 161 / 50%) 42%);
 }
 
 .footer-col {
-    height: 125px;
-    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
     border-radius: 10px;
     color: #fff;
     margin: 0px 20px;
 }
 
-.state-inner-wrapper {
+.footer-col h1, .footer-col p {
+    margin: 0;
+}
+
+.state-text-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    text-align: left;
+    flex-direction: column;
+}
+
+.state-inner-container {
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    width: 607px;
+    height: 100px;
+}
+
+.state {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     flex-direction: row;
     width: 100%;
-    height: 100%;
+    height: 227px;
+    scroll-snap-align: start;
+    padding: 20px 0px;
+}
+
+.state-inner-wrapper {
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 607px;
+    height: 100px;
 }
 
 .state-icon-wrapper {
@@ -140,13 +230,32 @@ body {
     text-align: center;
     height: 100%;
     width: 35%;
-    border-radius: 10px;
-    background-color: rgba(20, 20, 20, 1);
+    border-radius: 10px 15px 15px 10px;
+    background: rgba(3, 3, 3, 0.9);
+}
+
+.state-info-wrapper .clock h5 {
+    margin: 0;
+    padding: 0;
+}
+
+.state-info-wrapper .clock {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    /*background: red;*/
+    align-self: flex-start;
 }
 
 .state-info-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
     height: 100%;
-    padding: 0px 10%;
+    padding: 0px 0px 0px 10%;
     width: 65%;
 }
 

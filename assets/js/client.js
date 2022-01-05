@@ -16,7 +16,6 @@ class stream {
         antialias : true,
         alpha : 0.1
     });
-
     // Camera stream topic
     cameraStream = new this.ROSLIB.Topic({
         ros : this.ros,
